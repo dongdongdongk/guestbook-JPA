@@ -10,7 +10,10 @@ import java.util.stream.Collectors;
 @Data
 public class PageResultDTO<DTO, EN> {
 
+    // DTO 리스트
     private List<DTO> dtoList;
+
+
 
     public PageResultDTO(Page<EN> result, Function<EN, DTO> fn) {
 
