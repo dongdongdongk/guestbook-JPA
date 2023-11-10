@@ -33,13 +33,21 @@
         <input type="text" class="form-control" name="modDate" th:value="${#temporals.format(dto.modDate, 'yyyy/MM/dd HH:mm:ss')}" readonly>
       </div>
     </form>
-    <a th:href="@{/guestbook/modify(gno = ${dto.gno}, page=${requestDTO.page})}">
-      <button type="button" class="btn btn-primary">Modify</button>
-    </a>
 
-    <a th:href="@{/guestbook/list(page=${requestDTO.page})}">
-      <button type="button" class="btn btn-info">List</button>
-    </a>
+    <button type="button" class="btn btn-primary modifyBtn">Modify</button>
+    <button type="button" class="btn btn-info listBtn">List</button>
+    <button type="button" class="btn btn-danger removeBtn">Remove</button>
+
+    <script th:inline="javascript">
+      const removeBtn = document.querySelector(".removeBtn")
+      const actionForm = document.querySelector("form");
+      removeBtn.addEventListener('click', function (){
+        actionForm.setAttribute("action","/guestbook/remove")
+        actionForm.method = "post";
+        actionForm.submit();
+      });
+
+    </script>
 
   </th:block>
 

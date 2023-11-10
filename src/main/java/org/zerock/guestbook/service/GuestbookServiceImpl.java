@@ -32,12 +32,23 @@ public class GuestbookServiceImpl implements GuestbookService {
     // 게시글 삭제
     @Override
     public void remove(Long gno) {
-
+        repository.deleteById(gno);
     }
     // 게시글 수정
     @Override
     public void modify(GuestbookDTO dto) {
+        // 업데이트 항목 제목, 내용
+        Optional<Guestbook> result = repository.findById(dto.getGno());
+        if(result.isPresent()) {
+            // result.get()은 Optional 객체 안에 실제로 값이 존재한다면 그 값을 반환,
+            // 값이 없는 경우에는 NoSuchElementException을 발생
+            Guestbook entity = result.get();
 
+            entity.changeTitle(dto.getTitle());
+            entity.changeContent(dto.getContent());
+
+            repository.save(entity);
+        }
     }
     // 게시글 등록
     @Override
