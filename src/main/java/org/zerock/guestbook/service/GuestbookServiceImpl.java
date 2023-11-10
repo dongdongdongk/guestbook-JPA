@@ -22,13 +22,24 @@ public class GuestbookServiceImpl implements GuestbookService {
 
     private final GuestbookRepository repository; //반드시 final 로 선언
 
+    // 게시글 상세
     @Override
     public GuestbookDTO read(Long gno) {
         Optional<Guestbook> result  = repository.findById(gno);
 
         return result.isPresent() ? entityToDto(result.get()) : null;
     }
+    // 게시글 삭제
+    @Override
+    public void remove(Long gno) {
 
+    }
+    // 게시글 수정
+    @Override
+    public void modify(GuestbookDTO dto) {
+
+    }
+    // 게시글 등록
     @Override
     public Long register(GuestbookDTO dto) {
         log.info("DTO--------------------");

@@ -6,7 +6,7 @@
     <th:block th:fragment="content">
         <h1>GuestBook List Page
             <span>
-                <a th:href="@{/guestbook/register.html}">
+                <a th:href="@{/guestbook/register}">
                     <button type="button" class="btn btn-outline-primary">REGISTER</button>
                 </a>
             </span>
@@ -22,7 +22,7 @@
             </thead>
             <tbody>
             <tr th:each="dto : ${result.dtoList}">
-                <th scope="row">[[${dto.gno}]]</th>
+                <th scope="row"><a th:href="@{/guestbook/read(gno = ${dto.gno}, page = ${result.page})}">[[${dto.gno}]]</a></th>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate,'yyyy/MM/dd')}]]</td>
