@@ -4,7 +4,13 @@
 <th:block th:replace="~{/layout/basic::setContent(~{this::content} )}">
 
     <th:block th:fragment="content">
-        <h1>GuestBook List Page</h1>
+        <h1>GuestBook List Page
+            <span>
+                <a th:href="@{/guestbook/register.html}">
+                    <button type="button" class="btn btn-outline-primary">REGISTER</button>
+                </a>
+            </span>
+        </h1>
         <table class="table table-striped">
             <thead>
             <tr>
@@ -38,10 +44,51 @@
                 <a class="page-link" th:href="@{/guestbook/list(page = ${result.end + 1})}">Next</a>
             </li>
         </ul>
+        <!--Modal-->
+        <div class="modal showing" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script th:inline="javascript">
 
-            let msg = [[${msg}]];
-            console.log(msg);
+                let msg = [[${msg}]];
+                console.log(msg);
+
+                if (msg) {
+                    alert("등록 번호" + [[${msg}]])
+                    console.log("모달 진입");
+                    // 모달 열기
+                    let modal = document.querySelector(".modal");
+                    modal.classList.add("show");
+
+                    // Close 버튼에 이벤트 리스너 추가
+                    let closeModalButton = modal.querySelector(".btn-close");
+                    closeModalButton.addEventListener("click", function() {
+                        modal.classList.remove("show");
+                    });
+
+                    // Close 버튼 외의 부분을 클릭하면 모달 닫기
+                    window.addEventListener("click", function(event) {
+                        if (event.target === modal) {
+                            modal.classList.remove("show");
+                        }
+                    });
+                }
 
         </script>
 
