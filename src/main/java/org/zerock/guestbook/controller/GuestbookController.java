@@ -42,4 +42,11 @@ public class GuestbookController {
         redirectAttributes.addFlashAttribute("msg",gno);
         return "redirect:/guestbook/list";
     }
+
+    public void read(Long gno , @ModelAttribute("requestDTO") PageRequestDTO pageRequestDTO, Model model) {
+        log.info("gno" + gno);
+        GuestbookDTO dto = service.read(gno);
+
+        model.addAttribute("dto", dto);
+    }
 }
