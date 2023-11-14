@@ -45,42 +45,4 @@ public interface GuestbookService {
         return dto;
     }
 
-    private BooleanBuilder getSearch(PageRequestDTO requestDTO) {
-
-        String type = requestDTO.getType(); // 타입 정보 얻어오기 (제목,작성자,내용)
-
-        BooleanBuilder booleanBuilder = new BooleanBuilder(); // 불리언 빌더 생성
-
-        if(type == null || type.trim().length() == 0) { // 검색 조건이 없는 경우
-            return booleanBuilder;
-        }
-
-        QGuestbook qGuestbook = QGuestbook.guestbook; // Q도메인 객체
-
-        String keyword = requestDTO.getKeyword(); // 키워드 받아오기
-
-        BooleanExpression expression = qGuestbook.gno.gt(0L); // gno > 0 조건만 생성
-
-        booleanBuilder.and(expression);
-
-
-        // 검색 조건 작성하기
-        BooleanBuilder conditionBuilder = new BooleanBuilder();
-
-        if (type.contains("t")) {
-            conditionBuilder.or(qGuestbook.title.contains(keyword));
-        }
-        if (type.contains("c")) {
-            conditionBuilder.or(qGuestbook.content.contains(keyword));
-        }
-        if (type.contains("w")) {
-            conditionBuilder.or(qGuestbook.writer.contains(keyword));
-        }
-
-        // 모든 조건 통합
-        booleanBuilder.and(conditionBuilder);
-
-        return booleanBuilder;
-    }
-
 }
