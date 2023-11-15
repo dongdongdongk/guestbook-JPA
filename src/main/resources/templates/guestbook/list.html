@@ -11,7 +11,7 @@
                 </a>
             </span>
         </h1>
-
+        <!--검색 처리-->
         <form action="/guestbook/list" method="get" id="searchForm">
             <div class="input-group">
                 <input type="hidden" name="page" th:value="1">
@@ -45,7 +45,7 @@
             </thead>
             <tbody>
             <tr th:each="dto : ${result.dtoList}">
-                <th scope="row"><a th:href="@{/guestbook/read(gno = ${dto.gno}, page = ${result.page})}">[[${dto.gno}]]</a></th>
+                <th scope="row"><a th:href="@{/guestbook/read(gno = ${dto.gno}, page = ${result.page},type = ${pageRequestDTO.type},keyword =${pageRequestDTO.keyword})}">[[${dto.gno}]]</a></th>
                 <td>[[${dto.title}]]</td>
                 <td>[[${dto.writer}]]</td>
                 <td>[[${#temporals.format(dto.regDate,'yyyy/MM/dd')}]]</td>
@@ -56,15 +56,15 @@
         <!--페이저-->
         <ul class="pagination h-100 justify-content-center align-items-center">
             <li class="page-item" th:if="${result.prev}">
-                <a class="page-link" th:href="@{/guestbook/list(page = ${result.start - 1})}" tabindex="-1">Previous</a>
+                <a class="page-link" th:href="@{/guestbook/list(page = ${result.start - 1}, type = ${pageRequestDTO.type},keyword =${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
             </li>
             <li th:class="'page-item' +' '+ ${result.page == page ? 'active':''}" th:each="page : ${result.pageList}">
-                <a class="page-link" th:href="@{/guestbook/list(page = ${page})}">
+                <a class="page-link" th:href="@{/guestbook/list(page = ${page}, type = ${pageRequestDTO.type},keyword =${pageRequestDTO.keyword})}">
                     [[${page}]]
                 </a>
             </li>
             <li class="page-item" th:if="${result.next}">
-                <a class="page-link" th:href="@{/guestbook/list(page = ${result.end + 1})}">Next</a>
+                <a class="page-link" th:href="@{/guestbook/list(page = ${result.end + 1}, type = ${pageRequestDTO.type},keyword =${pageRequestDTO.keyword})}">Next</a>
             </li>
         </ul>
         <!--Modal-->
@@ -112,16 +112,18 @@
                         }
                     });
                 }
-                const searchForm = document.querySelector(".searchForm");
+                /*검색 기능*/
+                const searchForm = document.querySelector("#searchForm");
                 const btnSearch = document.querySelector(".btn-search");
                 const btnClear = document.querySelector(".btn-clear");
+                const inputSearch = document.querySelector("input[name='keyword']");
                 btnSearch.addEventListener("click", function (){
                    searchForm.submit();
                 });
 
                 btnClear.addEventListener("click",function (){
-                   searchForm.reset();
-                   searchForm.submit();
+                    inputSearch.value = "";
+                    searchForm.submit();
                 });
 
         </script>
